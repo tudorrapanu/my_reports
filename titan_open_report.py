@@ -15,7 +15,7 @@ dbr_client,
 dbr_no,
 dbr_cli_ref_no,
 dbr_name1,
-dbr_assign_date_o,
+dateformat(dbr_assign_date_o,"YYYY-MM-DD"),
 dbr_assign_amt,
 dbr_assign_amt - dbr_recvd_tot as balance
 from cds.dbr
