@@ -26,4 +26,4 @@ and dbr_class not in (2, 3)
 
 notes_headers = (["Client ID", "Debtor Number","Client Reference", "Customer Name", "Assigned Date", "Assigned Amount", "Balance"])
 
-write_report(sql_select_notes,'titan_opne_report',notes_headers,'Titan Open Accounts Report')
+write_report(sql_select_notes,'titan_open_report',notes_headers,'Titan Open Accounts Report')
