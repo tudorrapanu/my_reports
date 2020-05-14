@@ -4,7 +4,7 @@ sys.path.append('/python/')
 from report_module import *
 import datetime
 
-sql_command = """
+sql1 = """
 select
 dbr_no,
 dbr_cli_ref_no,
@@ -29,7 +29,7 @@ having count (*) > 1;
 """
 
 if "filename" not in jm:
-	filename = 'xylem_esc_report' + '-' + run_date.strftime('%Y-%m-%d') + '.xlsx'
+	filename = 'ge_inv_report' + '-' + run_date.strftime('%Y-%m-%d') + '.xlsx'
 	wb = xlsxwriter.Workbook(filename)
 else:
 	wb = xlsxwriter.Workbook(jm["filename"])
@@ -52,8 +52,8 @@ ws.write('G1', 'Total Received On Those Due Invocies', f_text_center)
 
 ws.set_column(0, 0, 8)
 ws.set_column(1, 1, 11)
-ws.set_column(2, 2, 16)
-ws.set_column(3, 3, 20)
+ws.set_column(2, 2, 20)
+ws.set_column(3, 3, 16)
 ws.set_column(4, 4, 18)
 ws.set_column(5, 5, 18)
 ws.set_column(6, 6, 18)
@@ -66,13 +66,11 @@ for l in sqlSelectList(curs, sql1, ()):
 
 	ws.write(row, 0, i[0], f_text_left_cell)
 	ws.write(row, 1, i[1], f_text_left_cell)
-	ws.write(row, 2, note['widgetINVList'], f_text_left_cell)
-	ws.write(row, 3, i[2], f_text_left_cell)
-	ws.write(row, 4, i[3], f_text_left_cell)
+	ws.write(row, 2, i[2], f_text_left_cell)
+	ws.write(row, 3, i[3], f_text_left_cell)
+	ws.write(row, 4, i[4], f_text_left_cell)
 	ws.write(row, 5, i[5], f_text_left_cell)
 	ws.write(row, 6, i[6], f_text_left_cell)
-	ws.write(row, 7, note['escalationReason'], f_text_left_cell)
-	ws.write(row, 8, '.')
 
 	row += 1
 wb.close()
