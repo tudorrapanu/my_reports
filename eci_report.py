@@ -80,11 +80,11 @@ f_text_left = wb.add_format(text_left)
 
 ws = wb.add_worksheet('ECI Report')
 
-ws.merge_range('A1:B6')
+ws.merge_range('A1:B6', '')
 ws.insert_image('A1', 'logo.png')
 
-ws.merge_range('C1:O3')
-ws.merge_range('C4:O6')
+ws.merge_range('C1:O3', '')
+ws.merge_range('C4:O6', '')
 
 ws.write('C1', 'ECI Accounts Report', f_text_center)
 ws.write('C4', run_date.strftime('%Y-%m-%d'), f_text_center)
