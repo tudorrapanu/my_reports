@@ -1,10 +1,11 @@
 import sys
+
 sys.path.append('/home/build/scoop/server/python/')
 sys.path.append('/python/')
 from report_module import *
 import datetime
 
-sql1="""
+sql1 = """
 select
 dbr_client,
 dbr_cli_ref_no,
@@ -30,10 +31,10 @@ dbr_cl_misc_2;
 """
 
 if "filename" not in jm:
-	filename = 'xylem_esc_report' + '-' + run_date.strftime('%Y-%m-%d') + '.xlsx'
-	wb = xlsxwriter.Workbook(filename)
+    filename = 'xylem_esc_report' + '-' + run_date.strftime('%Y-%m-%d') + '.xlsx'
+    wb = xlsxwriter.Workbook(filename)
 else:
-	wb = xlsxwriter.Workbook(jm["filename"])
+    wb = xlsxwriter.Workbook(jm["filename"])
 
 f_text_center = wb.add_format(text_center)
 f_text_center.set_bg_color('#afc7ea')
@@ -64,18 +65,18 @@ ws.set_column(7, 7, 55)
 row = 1
 
 for l in sqlSelectList(curs, sql1, ()):
-	i = tuple_to_clean_list(l)
- 	note = return_note('ESC', i[4])
+    i = tuple_to_clean_list(l)
+    note = return_note('ESC', i[4])
 
-	ws.write(row, 0, i[0], f_text_left_cell)
-	ws.write(row, 1, i[1], f_text_left_cell)
-	ws.write(row, 2, note['widgetINVList'], f_text_left_cell)
-	ws.write(row, 3, i[2], f_text_left_cell)
-	ws.write(row, 4, i[3], f_text_left_cell)
-	ws.write(row, 5, i[5], f_text_left_cell)
-	ws.write(row, 6, i[6], f_text_left_cell)
-	ws.write(row, 7, note['escalationReason'], f_text_left_cell)
-	ws.write(row, 8, '.')
+    ws.write(row, 0, i[0], f_text_left_cell)
+    ws.write(row, 1, i[1], f_text_left_cell)
+    ws.write(row, 2, note['widgetINVList'], f_text_left_cell)
+    ws.write(row, 3, i[2], f_text_left_cell)
+    ws.write(row, 4, i[3], f_text_left_cell)
+    ws.write(row, 5, i[5], f_text_left_cell)
+    ws.write(row, 6, i[6], f_text_left_cell)
+    ws.write(row, 7, note['escalationReason'], f_text_left_cell)
+    ws.write(row, 8, '.')
 
-	row += 1
+    row += 1
 wb.close()
