@@ -22,7 +22,7 @@ inner join CDS.IVT on ivt_dbr_no = dbr_no
 where dbr_no = %s;
 """
 
-dbr_no = jm[debtor_number]
+dbr_no = jm['debtor_number']
 
 if "filename" not in jm:
     filename = 'invoice_report_' + dbr_no + '-' + run_date.strftime('%Y-%m-%d') + '.xlsx'
@@ -82,8 +82,8 @@ for l in sqlSelectList(curs, sql1, (dbr_no)):
     dt = i[4].strftime('%Y-%m-%d')
     ws.write(row, 4, dt, f_text_normal)       # dbr_assign_date_o
     ws.write(row, 5, i[5], f_text_normal)     # ivt_ivt_no
-    dt = i[6].strftime('%Y-%m-%d')
-    ws.write(row, 6, dt, f_text_normal)       # ivt_ivt_date
+    # dt = i[6].strftime('%Y-%m-%d')
+    ws.write(row, 6, i[6], f_text_normal)       # ivt_ivt_date
     dt = i[7].strftime('%Y-%m-%d')
     ws.write(row, 7, dt, f_text_normal)       # ivt_due_date
     ws.write(row, 8, i[8], f_text_normal)     # ivt_amount
