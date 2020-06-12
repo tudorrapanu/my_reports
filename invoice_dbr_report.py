@@ -11,10 +11,10 @@ dbr_client,
 dbr_no,
 dbr_cli_ref_no,
 dbr_assign_amt,
-dbr_assign_date_o,
+date_format(dbr_assign_date_o, '%Y-%m-%d'),
 ivt_ivt_no,
-ivt_ivt_date,
-ivt_due_date,
+date_format(ivt_ivt_date, '%%Y-%%m-%%d'),
+date_format(ivt_due_date, '%%Y-%%m-%%d'),
 ivt_amount,
 ivt_amount-ivt_paid as ivt_due
 from CDS.DBR
@@ -40,15 +40,14 @@ f_text_header.set_font_color('navy')
 f_text_header.set_font_size(18)
 f_text_left_cell = wb.add_format(text_center)
 f_text_left = wb.add_format(text_left)
-date_format = wb.add_format({'num_format': '%Y-%m-%d', 'align': 'center'})
 
 ws = wb.add_worksheet('Invoices Report')
 
 ws.merge_range('A1:B6', '')
 ws.insert_image('A1', 'logo.png', {'x_scale': 0.35, 'y_scale': 0.35})
 
-ws.merge_range('C1:Q3', '')
-ws.merge_range('C4:Q6', '')
+ws.merge_range('C1:J3', '')
+ws.merge_range('C4:J6', '')
 
 ws.write('C1', 'Invoice Details for Debtor Number Report', f_text_header)
 ws.write('C4', run_date.strftime('%Y-%m-%d'), f_text_header)
@@ -79,13 +78,10 @@ for l in sqlSelectList(curs, sql1, (dbr_no)):
     ws.write(row, 1, i[1], f_text_normal)     # dbr_no
     ws.write(row, 2, i[2], f_text_normal)     # dbr_cli_ref_no
     ws.write(row, 3, i[3], f_text_normal)     # dbr_assign_amt
-    dt = i[4].strftime('%Y-%m-%d')
-    ws.write(row, 4, dt, f_text_normal)       # dbr_assign_date_o
+    ws.write(row, 4, i[4], f_text_normal)     # dbr_assign_date_o
     ws.write(row, 5, i[5], f_text_normal)     # ivt_ivt_no
-    # dt = i[6].strftime('%Y-%m-%d')
-    ws.write(row, 6, i[6], f_text_normal)       # ivt_ivt_date
-    dt = i[7].strftime('%Y-%m-%d')
-    ws.write(row, 7, dt, f_text_normal)       # ivt_due_date
+    ws.write(row, 6, i[6], f_text_normal)     # ivt_ivt_date
+    ws.write(row, 7, i[7], f_text_normal)     # ivt_due_date
     ws.write(row, 8, i[8], f_text_normal)     # ivt_amount
     ws.write(row, 9, i[9], f_text_normal)     # ivt_due
     ws.write(row, 10, '.')
