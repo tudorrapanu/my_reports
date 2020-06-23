@@ -43,15 +43,15 @@ f_text_left_cell = wb.add_format(text_center)
 f_text_left = wb.add_format(text_left)
 date_format = wb.add_format({'num_format': '%Y-%m-%d', 'align': 'center'})
 
-ws = wb.add_worksheet('Trust Report')
+ws = wb.add_worksheet('Trust Report for 5175264')
 
 ws.merge_range('A1:B6', '')
-ws.insert_image('A1', 'logo.png', {'x_scale': 0.35, 'y_scale': 0.35})
+ws.insert_image('A1', 'logo.png', {'x_scale': 0.3, 'y_scale': 0.35})
 
-ws.merge_range('C1:L3', '')
-ws.merge_range('C4:L6', '')
+ws.merge_range('C1:M3', '')
+ws.merge_range('C4:M6', '')
 
-ws.write('C1', 'ECI Accounts Report', f_text_header)
+ws.write('C1', 'Trust Report for Account 5175264', f_text_header)
 ws.write('C4', run_date.strftime('%Y-%m-%d'), f_text_header)
 
 ws.write('A7', 'Post Date', f_text_center)
@@ -66,7 +66,7 @@ ws.write('I7', 'Fee', f_text_center)
 ws.write('J7', 'Currency', f_text_center)
 ws.write('K7', 'FX Rate', f_text_center)
 ws.write('L7', 'Remit', f_text_center)
-ws.write('M7', 'Rent Date', f_text_center)
+ws.write('M7', 'Remit Date', f_text_center)
 
 ws.set_column(0, 2, 10)
 ws.set_column(3, 3, 8)
@@ -87,7 +87,7 @@ for l in sqlSelectList(curs, sql1, ()):
     ws.write(row, 3, i[3], f_text_normal)     # trs_trust_code
     if (i[4]=='A'):
         ws.write(row, 4, 'Agency', f_text_normal) # trs_stmt_byte
-    else if(i[4]=='C'):
+    elif(i[4]=='C'):
         ws.write(row, 4, 'Client', f_text_normal)
     else:
         ws.write(row, 4, i[4], f_text_normal)
