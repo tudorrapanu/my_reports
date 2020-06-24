@@ -25,7 +25,7 @@ and trs_trx_date_o < ivt_due_date
 """
 
 if "filename" not in jm:
-    filename = 'invoice_report_' + dbr_no + '-' + run_date.strftime('%Y-%m-%d') + '.xlsx'
+    filename = 'inv_paid_before_due_6420578' + '-' + run_date.strftime('%Y-%m-%d') + '.xlsx'
     wb = xlsxwriter.Workbook(filename)
 else:
     wb = xlsxwriter.Workbook(jm["filename"])
@@ -46,8 +46,8 @@ ws = wb.add_worksheet('Invoices Report')
 ws.merge_range('A1:B6', '')
 ws.insert_image('A1', 'logo.png', {'x_scale': 0.35, 'y_scale': 0.35})
 
-ws.merge_range('C1:J3', '')
-ws.merge_range('C4:J6', '')
+ws.merge_range('C1:K3', '')
+ws.merge_range('C4:K6', '')
 
 ws.write('C1', 'Invoices Paid Before Due Date for 6420578', f_text_header)
 ws.write('C4', run_date.strftime('%Y-%m-%d'), f_text_header)
@@ -72,7 +72,7 @@ ws.set_column(6, 10, 10)
 
 row = 7
 
-for l in sqlSelectList(curs, sql1, (dbr_no)):
+for l in sqlSelectList(curs, sql1, ()):
     i = tuple_to_clean_list(l)
 
     ws.write(row, 0, i[0], f_text_normal)     # trs_note_1
