@@ -54,6 +54,7 @@ date_format = wb.add_format({'num_format': '%Y-%m-%d', 'align': 'center'})
 
 ############ PARAMETERS ############
 remit_id = jm["remit_id"]
+wb = ''
 
 for l in sqlSelectList(curs, sql1, (remit_id, remit_id)):
 	i = tuple_to_clean_list(l)
