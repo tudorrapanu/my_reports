@@ -11,9 +11,9 @@ sql1 = """
 SELECT clt_no,
 MIN(POST_DATE),
 MAX(POST_DATE),
-(SELECT remit_currency FROM DBA.trs_remit WHERE remit_id = %s) AS currency
+(SELECT remit_currency FROM DBA.trs_remit WHERE remit_id = '%s') AS currency
 FROM DBA.trs_archive
-WHERE remit_id = %s
+WHERE remit_id = '%s'
 GROUP BY clt_no;
 """
 
@@ -34,27 +34,13 @@ from CDS.TRS
 inner join CDS.IVT on trs_note_1 = ivt_ivt_no
 inner join CDS.DBR on trs_dbr_no = DBR.dbr_no
 inner join DBA.trs_archive on trs_dbr_no = trs_archive.dbr_no
-WHERE dbr_client = %s
-AND TRS_STMT_BYTE = %s;
+WHERE dbr_client = '%s'
+AND TRS_STMT_BYTE = '%s'
+AND remit_id = '%s';
 """
-
-############ FORMATS ############
-
-f_text_center = wb.add_format(text_center)
-f_text_center.set_bg_color('#afc7ea')
-f_text_center.set_bold()
-f_text_normal = wb.add_format(text_center)
-f_text_header = wb.add_format(text_center)
-f_text_header.set_bold()
-f_text_header.set_font_color('navy')
-f_text_header.set_font_size(18)
-f_text_left_cell = wb.add_format(text_center)
-f_text_left = wb.add_format(text_left)
-date_format = wb.add_format({'num_format': '%Y-%m-%d', 'align': 'center'})
 
 ############ PARAMETERS ############
 remit_id = jm["remit_id"]
-wb = ''
 
 for l in sqlSelectList(curs, sql1, (remit_id, remit_id)):
 	i = tuple_to_clean_list(l)
@@ -68,6 +54,20 @@ for l in sqlSelectList(curs, sql1, (remit_id, remit_id)):
 	    wb = xlsxwriter.Workbook(filename)
 	else:
 	    wb = xlsxwriter.Workbook(jm["filename"])
+
+	############ FORMATS ############
+
+	f_text_center = wb.add_format(text_center)
+	f_text_center.set_bg_color('#afc7ea')
+	f_text_center.set_bold()
+	f_text_normal = wb.add_format(text_center)
+	f_text_header = wb.add_format(text_center)
+	f_text_header.set_bold()
+	f_text_header.set_font_color('navy')
+	f_text_header.set_font_size(18)
+	f_text_left_cell = wb.add_format(text_center)
+	f_text_left = wb.add_format(text_left)
+	date_format = wb.add_format({'num_format': '%Y-%m-%d', 'align': 'center'})
 
 	############# MAPPING ############
 
@@ -102,7 +102,7 @@ for l in sqlSelectList(curs, sql1, (remit_id, remit_id)):
 	############ DATA ROWS ############
 	row = 8
 
-	for k in sqlSelectList(curs, sql2, (client_id, 'A')):
+	for k in sqlSelectList(curs, sql2, (client_id, 'A', remit_id)):
 	    i = tuple_to_clean_list(k)
 
 	    ws.write(row, 0, i[0], f_text_normal)     # Account Number
@@ -142,7 +142,7 @@ for l in sqlSelectList(curs, sql1, (remit_id, remit_id)):
 	ws.write('I8', 'Total Due', f_text_center)
 	ws.write('J8', 'Currency', f_text_center)
 
-	for k in sqlSelectList(curs, sql2, (client_id, 'C')):
+	for k in sqlSelectList(curs, sql2, (client_id, 'C', remit_id)):
 	    i = tuple_to_clean_list(k)
 
 	    ws.write(row, 0, i[0], f_text_normal)     # Account Number
